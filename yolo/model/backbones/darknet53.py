@@ -13,89 +13,96 @@
 # ==============================================================================
 import torch.nn as nn
 
-from yolo.model import BasicBlock
-from yolo.model import ResidualBlock
+from ..module import BasicConv2d
+from ..module import ResidualBlock
 
 
 class Darknet53(nn.Module):
 
     def __init__(self):
         super(Darknet53, self).__init__()
-        self.conv = BasicBlock(3, 32, 3, 1, 1, batch_norm=True,
-                               activation='leakyrelu')
+        self.conv1 = BasicConv2d(3, 32, 3, 1, 1,
+                                 batch_norm=True, activation='leakyrelu')
 
-        self.conv_5_0 = BasicBlock(32, 64, 3, 2, 1, batch_norm=True,
-                                   activation='leakyrelu')
-        self.rb_5_0 = ResidualBlock(inplanes=64, meplanes=32, planes=64)
+        self.conv2 = BasicConv2d(32, 64, 3, 2, 1,
+                                 batch_norm=True, activation='leakyrelu')
 
-        self.conv_5_1 = BasicBlock(64, 128, 3, 2, 1, batch_norm=True,
-                                   activation='leakyrelu')
-        self.rb_5_1_0 = ResidualBlock(inplanes=128, meplanes=64, planes=128)
-        self.rb_5_1_1 = ResidualBlock(inplanes=128, meplanes=64, planes=128)
+        self.rb1 = ResidualBlock(in_channels=64, ch1x1=32, out_channels=64)
 
-        self.conv_5_2 = BasicBlock(128, 256, 3, 2, 1, batch_norm=True,
-                                   activation='leakyrelu')
-        self.rb_5_2_0 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_1 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_2 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_3 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_4 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_5 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_6 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
-        self.rb_5_2_7 = ResidualBlock(inplanes=256, meplanes=128, planes=256)
+        self.conv3 = BasicConv2d(64, 128, 3, 2, 1,
+                                 batch_norm=True, activation='leakyrelu')
+        self.rb2_1 = ResidualBlock(in_channels=128, ch1x1=64, out_channels=128)
+        self.rb2_2 = ResidualBlock(in_channels=128, ch1x1=64, out_channels=128)
 
-        self.conv_5_3 = BasicBlock(256, 512, 3, 2, 1, batch_norm=True,
-                                   activation='leakyrelu')
-        self.rb_5_3_0 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_1 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_2 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_3 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_4 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_5 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_6 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
-        self.rb_5_3_7 = ResidualBlock(inplanes=512, meplanes=256, planes=512)
+        self.conv4 = BasicConv2d(128, 256, 3, 2, 1,
+                                 batch_norm=True, activation='leakyrelu')
+        self.rb3_1 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_2 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_3 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_4 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_5 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_6 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_7 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
+        self.rb3_8 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
 
-        self.conv_5_4 = BasicBlock(512, 1024, 3, 2, 1, batch_norm=True,
-                                   activation='leakyrelu')
-        self.rb_5_4_0 = ResidualBlock(inplanes=1024, meplanes=512, planes=1024)
-        self.rb_5_4_1 = ResidualBlock(inplanes=1024, meplanes=512, planes=1024)
-        self.rb_5_4_2 = ResidualBlock(inplanes=1024, meplanes=512, planes=1024)
-        self.rb_5_4_3 = ResidualBlock(inplanes=1024, meplanes=512, planes=1024)
+        self.conv5 = BasicConv2d(256, 512, 3, 2, 1,
+                                 batch_norm=True, activation='leakyrelu')
+        self.rb4_1 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_2 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_3 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_4 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_5 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_6 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_7 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+        self.rb4_8 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
+
+        self.conv6 = BasicConv2d(512, 1024, 3, 2, 1,
+                                 batch_norm=True, activation='leakyrelu')
+        self.rb5_1 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)
+        self.rb5_2 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)
+        self.rb5_3 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)
+        self.rb5_4 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)
+
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
+            elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
 
     def forward(self, x):
-        x = self.conv(x)
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.rb1(x)
 
-        x0_0 = self.conv_5_0(x)
-        x0_1 = self.rb_5_0(x0_0)
+        x = self.conv3(x)
+        x = self.rb2_1(x)
+        x = self.rb2_2(x)
 
-        x1_0 = self.conv_5_1(x0_1)
-        x1_1 = self.rb_5_1_0(x1_0)
-        x1_2 = self.rb_5_1_1(x1_1)
+        x = self.conv4(x)
+        x = self.rb3_1(x)
+        x = self.rb3_2(x)
+        x = self.rb3_3(x)
+        x = self.rb3_4(x)
+        x = self.rb3_5(x)
+        x = self.rb3_6(x)
+        x = self.rb3_7(x)
+        small_output = self.rb3_8(x)  # small
 
-        x2_0 = self.conv_5_2(x1_2)
-        x2_1 = self.rb_5_2_0(x2_0)
-        x2_2 = self.rb_5_2_1(x2_1)
-        x2_3 = self.rb_5_2_2(x2_2)
-        x2_4 = self.rb_5_2_3(x2_3)
-        x2_5 = self.rb_5_2_4(x2_4)
-        x2_6 = self.rb_5_2_5(x2_5)
-        x2_7 = self.rb_5_2_6(x2_6)
-        x2_8 = self.rb_5_2_7(x2_7)  # small
+        x = self.conv5(small_output)
+        x = self.rb4_1(x)
+        x = self.rb4_2(x)
+        x = self.rb4_3(x)
+        x = self.rb4_4(x)
+        x = self.rb4_5(x)
+        x = self.rb4_6(x)
+        x = self.rb4_7(x)
+        medium_output = self.rb4_8(x)  # medium
 
-        x3_0 = self.conv_5_3(x2_8)
-        x3_1 = self.rb_5_3_0(x3_0)
-        x3_2 = self.rb_5_3_1(x3_1)
-        x3_3 = self.rb_5_3_2(x3_2)
-        x3_4 = self.rb_5_3_3(x3_3)
-        x3_5 = self.rb_5_3_4(x3_4)
-        x3_6 = self.rb_5_3_5(x3_5)
-        x3_7 = self.rb_5_3_6(x3_6)
-        x3_8 = self.rb_5_3_7(x3_7)  # medium
+        x = self.conv6(medium_output)
+        x = self.rb5_1(x)
+        x = self.rb5_2(x)
+        x = self.rb5_3(x)
+        large_output = self.rb5_4(x)  # large
 
-        x4_0 = self.conv_5_4(x3_8)
-        x4_1 = self.rb_5_4_0(x4_0)
-        x4_2 = self.rb_5_4_1(x4_1)
-        x4_3 = self.rb_5_4_2(x4_2)
-        x4_4 = self.rb_5_4_3(x4_3)  # large
-
-        return x2_8, x3_8, x4_4
+        return small_output, medium_output, large_output

@@ -11,10 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from .module import BasicBlock
+from .module import BasicConv2d
 from .module import FPN
-from .module import Head
+from .layer import YOLO
 from .module import ResidualBlock
 from .module import Route
 from .module import Upsample
-from .voc import VOC
+from .network import VOC
+from .backbones import Darknet19
+from .backbones import Darknet53
+from .backbones import Tiny

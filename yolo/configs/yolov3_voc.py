@@ -13,14 +13,14 @@
 # ==============================================================================
 # coding=utf-8
 # project
-DATA_PATH = "/home/dataset/VOC"
-PROJECT_PATH = "/home/xxxx/One-Stage_Detector"
+DATA_PATH = "/home/unix/code/One-Stage-Detector/yolo/data"
+PROJECT_PATH = "/home/unix/code/One-Stage-Detector/yolo"
 
 DATA = {"CLASSES": ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus',
                     'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
                     'motorbike', 'person', 'pottedplant', 'sheep', 'sofa',
                     'train', 'tvmonitor'],
-        "NUM": 20}
+        "NUM_CLASSES": 20}
 
 # model
 MODEL = {"ANCHORS": [[(1.25, 1.625), (2.0, 3.75), (4.125, 2.875)],

@@ -11,5 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from .darknet19 import DarkNet19
+from .darknet19 import Darknet19
 from .darknet53 import Darknet53
+from .tiny import Tiny
+from .tiny_mish import TinyMish
+from .tiny_swish import TinySwish

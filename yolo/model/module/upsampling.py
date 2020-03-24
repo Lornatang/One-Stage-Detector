@@ -11,22 +11,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from .utils import GIOU_xywh_torch
-from .utils import LabelSmooth
-from .utils import Mixup
-from .utils import RandomAffine
-from .utils import RandomCrop
-from .utils import RandomHorizontalFilp
-from .utils import Resize
-from .utils import init_seeds
-from .utils import iou_xywh_numpy
-from .utils import iou_xywh_torch
-from .utils import plot_box
-from .utils import plot_one_box
-from .utils import select_device
-from .utils import wh_iou
-from .utils import nms
-from .utils import CosineDecayLR
-from .voc_dataset import VocDataset
-from .loss import YoloV3Loss
-from .utils import xywh2xyxy
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+class Upsample(nn.Module):
+    def __init__(self, scale_factor=1, mode="nearest"):
+        super(Upsample, self).__init__()
+        self.scale_factor = scale_factor
+        self.mode = mode
+
+    def forward(self, x):
+        return F.interpolate(x, scale_factor=self.scale_factor, mode=self.mode)

@@ -43,9 +43,9 @@ class FocalLoss(nn.Module):
 
 
 class YoloV3Loss(nn.Module):
-    def __init__(self, strides, iou_threshold=0.5):
+    def __init__(self, strides, iou_threshold_loss=0.5):
         super(YoloV3Loss, self).__init__()
-        self.iou_threshold = iou_threshold
+        self.iou_threshold = iou_threshold_loss
         self.strides = strides
 
     def forward(self, p, p_d, label_sbbox, label_mbbox, label_lbbox, sbboxes,

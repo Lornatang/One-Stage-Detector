@@ -15,19 +15,8 @@ import torch
 import numpy as np
 import cv2
 import random
-import yolo.configs.voc
+import configs.yolov3_voc
 import os
-
-
-def weights_init_normal(m):
-    classname = m.__class__.__name__
-    if classname.find('Conv2d') != -1:
-        torch.nn.init.normal_(m.weight.data, 0.0, 0.01)
-        if m.bias is not None:
-            m.bias.data.zero_()
-    elif classname.find('BatchNorm2d') != -1:
-        torch.nn.init.constant_(m.weight.data, 1.0)
-        torch.nn.init.constant_(m.bias.data, 0.0)
 
 
 def xyxy2xywh(x):
@@ -298,8 +287,6 @@ def init_seeds(seed=0):
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    os.environ['PYTHONHASHSEED'] = str(seed)
-
 
 def plot_one_box(x, img, color=None, label=None, line_thickness=None):
     # Plots one bounding box on image img
@@ -336,7 +323,7 @@ def plot_box(bboxes, img, id=None, color=None, line_thickness=None):
     for i, x in enumerate(bboxes):
         c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
         cv2.rectangle(img, c1, c2, color, thickness=tl)
-        label = yolo.configs.voc.DATA["CLASSES"][int(x[4])]
+        label = configs.yolov3_voc.DATA["CLASSES"][int(x[4])]
         if label:
             tf = max(tl - 1, 1)  # font thickness
             t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[
