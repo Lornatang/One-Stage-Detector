@@ -1,0 +1,50 @@
+DATA_ROOT: "/home/unix/code/One-Stage-Detector/data"
+
+CONFIG_FILE: "config/YOLOV3.yaml"
+
+CLASSES: ["aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow",
+          "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa",
+          "train", "tvmonitor"]
+MODEL:
+  META_ARCHITECTURE: "Darknet53"
+  STRIDES: [8,16,32]
+  PRIORS_ANCHOR: 3
+
+TRAIN:
+  DATASET: "train"
+  GPUS: 1
+  WORKERS: 4
+  SHUFFLE: True
+  PIN_MENORY: True
+
+  LR: 0.0001
+  MOMENTUM: 0.9
+  DECAY: 0.0005
+
+  MAX_BATCHES: 50200
+  RESIZE_INTERVAL: 10
+  IOU_THRESHOLD": 0.5
+  WARMUP_BATCHES: 2500
+
+  IMAGE_SIZE: 608
+  BATCH_SIZE: 64
+  MINI_BATCH_SIZE: 16
+  MULTI_SCALE: True
+  WEIGHTS: "weights/darknet53.conv.74"
+
+TEST:
+  DATASET: "test"
+  TASK: "eval"
+  GPUS: 1
+  NWORKERS: 4
+  SHUFFLE: False
+  PIN_MEM: True
+
+  IMAGE_SIZE: 608
+  BATCH_SIZE: 32
+  MULTI_SCALE: False
+  FLIP: False
+  WEIGHTS: "weights/yolov3_voc_50200.pth"
+
+  CONFIDENCE_THRESHOLD: 0.001
+  NMS_THRESHOLD: 0.5
