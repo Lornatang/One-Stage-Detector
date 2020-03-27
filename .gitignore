@@ -129,11 +129,13 @@ dmypy.json
 .vscode
 *.DS_Store
 
-yolo/data/results
-yolo/data/VOCtest_06-Nov-2007
-yolo/data/VOCtrainval_06-Nov-2007
-yolo/data/VOCtrainval_11-May-2012
-yolo/data/test_annotation.txt
-yolo/data/train_annotation.txt
-
-yolo/weights/darknet53.conv.74
+data/results
+data/VOCtest_06-Nov-2007
+data/VOCtrainval_06-Nov-2007
+data/VOCtrainval_11-May-2012
+data/test_annotation.txt
+data/train_annotation.txt
+weights/darknet53.conv.74
+weights/checkpoint.pth
+weights/model_best.pth
+runs

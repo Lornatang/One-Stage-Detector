@@ -14,6 +14,7 @@
 from .activition import Mish
 from .activition import Swish
 from .conv import BasicConv2d
+from .conv import ConvBNLeakyReLU
 from .conv import DeepConv2d
 from .conv import fuse_conv_and_bn
 from .res import ResidualBlock

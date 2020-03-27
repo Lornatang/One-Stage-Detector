@@ -13,7 +13,7 @@
 # ==============================================================================
 import torch.nn as nn
 
-from model.module.conv import BasicConv2d
+from model.module.conv import ConvBNLeakyReLU
 from model.module.route import Route
 from model.module.upsampling import Upsample
 
@@ -37,66 +37,46 @@ class FPN(nn.Module):
 
         # large
         self.convset0 = nn.Sequential(
-            BasicConv2d(in_channel_0, 512, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(512, 1024, 3, 1, 1,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(1024, 512, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(512, 1024, 3, 1, 1,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(1024, 512, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
+            ConvBNLeakyReLU(in_channel_0, 512, 1, 1, 0),
+            ConvBNLeakyReLU(512, 1024, 3, 1, 1),
+            ConvBNLeakyReLU(1024, 512, 1, 1, 0),
+            ConvBNLeakyReLU(512, 1024, 3, 1, 1),
+            ConvBNLeakyReLU(1024, 512, 1, 1, 0),
         )
 
-        self.conv0_0 = BasicConv2d(512, 1024, 3, 1, 1,
-                                   batch_norm=True, activation="leakyrelu")
-        self.conv0_1 = BasicConv2d(1024, out_channel_0, 1, 1, 0)
+        self.conv0_0 = ConvBNLeakyReLU(512, 1024, 3, 1, 1)
+        self.conv0_1 = nn.Conv2d(1024, out_channel_0, 1, 1, 0)
 
-        self.conv0 = BasicConv2d(512, 256, 1, 1, 0,
-                                 batch_norm=True, activation="leakyrelu")
+        self.conv0 = ConvBNLeakyReLU(512, 256, 1, 1, 0)
         self.upsample0 = Upsample(scale_factor=2)
         self.route0 = Route()
 
         # medium
         self.convset1 = nn.Sequential(
-            BasicConv2d(in_channel_1 + 256, 256, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(256, 512, 3, 1, 1,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(512, 256, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(256, 512, 3, 1, 1,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(512, 256, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu")
+            ConvBNLeakyReLU(in_channel_1 + 256, 256, 1, 1, 0),
+            ConvBNLeakyReLU(256, 512, 3, 1, 1),
+            ConvBNLeakyReLU(512, 256, 1, 1, 0),
+            ConvBNLeakyReLU(256, 512, 3, 1, 1),
+            ConvBNLeakyReLU(512, 256, 1, 1, 0)
 
         )
-        self.conv1_0 = BasicConv2d(256, 512, 3, 1, 1,
-                                   batch_norm=True, activation="leakyrelu")
-        self.conv1_1 = BasicConv2d(512, out_channel_1, 1, 1, 0)
+        self.conv1_0 = ConvBNLeakyReLU(256, 512, 3, 1, 1)
+        self.conv1_1 = nn.Conv2d(512, out_channel_1, 1, 1, 0)
 
-        self.conv1 = BasicConv2d(256, 128, 1, 1, 0,
-                                 batch_norm=True, activation="leakyrelu")
+        self.conv1 = ConvBNLeakyReLU(256, 128, 1, 1, 0)
         self.upsample1 = Upsample(scale_factor=2)
         self.route1 = Route()
 
         # small
         self.convset2 = nn.Sequential(
-            BasicConv2d(in_channel_2 + 128, 128, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(128, 256, 3, 1, 1,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(256, 128, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(128, 256, 3, 1, 1,
-                        batch_norm=True, activation="leakyrelu"),
-            BasicConv2d(256, 128, 1, 1, 0,
-                        batch_norm=True, activation="leakyrelu"),
+            ConvBNLeakyReLU(in_channel_2 + 128, 128, 1, 1, 0),
+            ConvBNLeakyReLU(128, 256, 3, 1, 1),
+            ConvBNLeakyReLU(256, 128, 1, 1, 0),
+            ConvBNLeakyReLU(128, 256, 3, 1, 1),
+            ConvBNLeakyReLU(256, 128, 1, 1, 0),
         )
-        self.conv2_0 = BasicConv2d(128, 256, 3, 1, 1,
-                                   batch_norm=True, activation="leakyrelu")
-        self.conv2_1 = BasicConv2d(256, out_channel_2, 1, 1, 0)
+        self.conv2_0 = ConvBNLeakyReLU(128, 256, 3, 1, 1)
+        self.conv2_1 = nn.Conv2d(256, out_channel_2, 1, 1, 0)
 
     def forward(self, x0, x1, x2):  # large, medium, small
         # large

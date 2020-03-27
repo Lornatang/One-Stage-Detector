@@ -18,39 +18,55 @@ from model.module.activition import Mish
 from model.module.activition import Swish
 
 
+class ConvBNLeakyReLU(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size, stride, padding):
+        super(ConvBNLeakyReLU, self).__init__()
+        self.main = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size,
+                      stride, padding, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.LeakyReLU(negative_slope=0.1, inplace=True),
+        )
+
+    def forward(self, x):
+        x = self.main(x)
+        return x
+
+
 class BasicConv2d(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride, padding,
                  batch_norm=None, activation=None):
         super(BasicConv2d, self).__init__()
 
-        self.batch_norm = batch_norm
-        self.activation = activation
+        self.norm = batch_norm
+        self.activate = activation
 
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size,
                               stride, padding, bias=not batch_norm)
 
         if batch_norm:
-            self.batch_norm = nn.BatchNorm2d(out_channels)
+            self._batch_norm = nn.BatchNorm2d(out_channels)
 
-        if activation == "relu":
-            self.activation = nn.ReLU(inplace=True)
-        elif activation == "relu6":
-            self.activation = nn.ReLU6(inplace=True)
-        elif activation == "leakyrelu":
-            self.activation = nn.LeakyReLU(negative_slope=0.1, inplace=True)
-        elif activation == "swish":
-            self.activation = Swish()
-        elif activation == "mish":
-            self.activation = Mish()
+        if activation:
+            if activation == "relu":
+                self.__activate = nn.ReLU(inplace=True)
+            if activation == "relu6":
+                self.__activate = nn.ReLU6(inplace=True)
+            if activation == "leakyrelu":
+                self.__activate = nn.LeakyReLU(negative_slope=0.1, inplace=True)
+            if activation == "swish":
+                self.__activate = Swish()
+            if activation == "mish":
+                self.__activate = Mish()
 
     def forward(self, x):
-        out = self.conv(x)
+        x = self.conv(x)
         if self.batch_norm:
-            out = self.batch_norm(out)
-        if self.activation:
-            out = self.activation(out)
+            x = self.batch_norm(x)
+        if self.activate:
+            x = self.__activate(x)
 
-        return out
+        return x
 
 
 class DeepConv2d(nn.Module):

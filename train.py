@@ -28,6 +28,7 @@ from tqdm import tqdm
 
 from easydet.config import get_cfg
 from model.network.yolov3_tiny import YOLOv3Tiny
+from model.network.yolov3 import YOLOv3
 from test import evaluate
 from utils import CosineDecayLR
 from utils import VocDataset
@@ -36,7 +37,7 @@ from utils import select_device
 from utils.loss import YoloV3Loss
 from utils.process_darknet_weights import load_darknet_weights
 
-mixed_precision = True
+mixed_precision = False
 try:  # Mixed precision training https://github.com/NVIDIA/apex
     from apex import amp
 except:
@@ -120,7 +121,7 @@ def train(cfg):
         os.remove(files)
 
     # Initialize model
-    model = YOLOv3Tiny(cfg).to(device)
+    model = YOLOv3(cfg).to(device)
 
     # Optimizer
     optimizer = optim.SGD(model.parameters(),

@@ -716,7 +716,10 @@ def parse_voc_annotation(data_path, file_type, anno_path,
     :param use_difficult_bbox: 是否适用difficult==1的bbox
     :return: 数据集大小
     """
-    classes = cfg["labels"]
+    classes = ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus',
+               'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
+               'motorbike', 'person', 'pottedplant', 'sheep', 'sofa',
+               'train', 'tvmonitor']
     img_inds_file = os.path.join(data_path, 'ImageSets', 'Main',
                                  file_type + '.txt')
     with open(img_inds_file, 'r') as f:
@@ -753,29 +756,29 @@ def parse_voc_annotation(data_path, file_type, anno_path,
 
 if __name__ == "__main__":
     # train_set :  VOC2007_trainval 和 VOC2012_trainval
-    train_data_path_2007 = os.path.join("../data", 'VOCtrainval-2007',
+    train_data_path_2007 = os.path.join("./data", 'VOCtrainval_06-Nov-2007',
                                         'VOCdevkit',
                                         'VOC2007')
-    train_data_path_2012 = os.path.join("../data",
-                                        'VOCtrainval-2012', 'VOCdevkit',
+    train_data_path_2012 = os.path.join("./data",
+                                        'VOCtrainval_11-May-2012', 'VOCdevkit',
                                         'VOC2012')
     train_annotation_path = os.path.join('../data', 'train_annotation.txt')
     if os.path.exists(train_annotation_path):
         os.remove(train_annotation_path)
 
     # val_set   : VOC2007_test
-    test_data_path_2007 = os.path.join("../data", 'VOCtest-2007',
+    test_data_path_2007 = os.path.join("./data", 'VOCtest_06-Nov-2007',
                                        'VOCdevkit', 'VOC2007')
-    test_annotation_path = os.path.join('../data', 'test_annotation.txt')
+    test_annotation_path = os.path.join('./data', 'test_annotation.txt')
     if os.path.exists(test_annotation_path):
         os.remove(test_annotation_path)
 
     len_train = parse_voc_annotation(train_data_path_2007, "trainval",
                                      train_annotation_path,
-                                     use_difficult_bbox=False) + \
-                parse_voc_annotation(train_data_path_2012, "trainval",
-                                     train_annotation_path,
                                      use_difficult_bbox=False)
+    len_train += parse_voc_annotation(train_data_path_2012, "trainval",
+                                      train_annotation_path,
+                                      use_difficult_bbox=False)
     len_test = parse_voc_annotation(test_data_path_2007, "test",
                                     test_annotation_path,
                                     use_difficult_bbox=False)

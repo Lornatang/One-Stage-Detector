@@ -101,7 +101,7 @@ def evaluate(cfg, args):
     if cfg.MODEL.META_ARCHITECTURE:
 
         # Initialize model
-        model = YOLOv3Tiny(cfg).to(device)
+        model = YOLOv3(cfg).to(device)
 
         # Load weights
         if cfg.TEST.WEIGHTS.endswith(".pth"):

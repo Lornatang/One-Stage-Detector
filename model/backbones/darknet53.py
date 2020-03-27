@@ -13,7 +13,7 @@
 # ==============================================================================
 import torch.nn as nn
 
-from ..module import BasicConv2d
+from ..module import ConvBNLeakyReLU
 from ..module import ResidualBlock
 
 
@@ -21,21 +21,17 @@ class Darknet53(nn.Module):
 
     def __init__(self):
         super(Darknet53, self).__init__()
-        self.conv1 = BasicConv2d(3, 32, 3, 1, 1,
-                                 batch_norm=True, activation='leakyrelu')
+        self.conv1 = ConvBNLeakyReLU(3, 32, 3, 1, 1)
 
-        self.conv2 = BasicConv2d(32, 64, 3, 2, 1,
-                                 batch_norm=True, activation='leakyrelu')
+        self.conv2 = ConvBNLeakyReLU(32, 64, 3, 2, 1)
 
         self.rb1 = ResidualBlock(in_channels=64, ch1x1=32, out_channels=64)
 
-        self.conv3 = BasicConv2d(64, 128, 3, 2, 1,
-                                 batch_norm=True, activation='leakyrelu')
+        self.conv3 = ConvBNLeakyReLU(64, 128, 3, 2, 1)
         self.rb2_1 = ResidualBlock(in_channels=128, ch1x1=64, out_channels=128)
         self.rb2_2 = ResidualBlock(in_channels=128, ch1x1=64, out_channels=128)
 
-        self.conv4 = BasicConv2d(128, 256, 3, 2, 1,
-                                 batch_norm=True, activation='leakyrelu')
+        self.conv4 = ConvBNLeakyReLU(128, 256, 3, 2, 1)
         self.rb3_1 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
         self.rb3_2 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
         self.rb3_3 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
@@ -45,8 +41,7 @@ class Darknet53(nn.Module):
         self.rb3_7 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
         self.rb3_8 = ResidualBlock(in_channels=256, ch1x1=128, out_channels=256)
 
-        self.conv5 = BasicConv2d(256, 512, 3, 2, 1,
-                                 batch_norm=True, activation='leakyrelu')
+        self.conv5 = ConvBNLeakyReLU(256, 512, 3, 2, 1)
         self.rb4_1 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
         self.rb4_2 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
         self.rb4_3 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
@@ -56,8 +51,7 @@ class Darknet53(nn.Module):
         self.rb4_7 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
         self.rb4_8 = ResidualBlock(in_channels=512, ch1x1=256, out_channels=512)
 
-        self.conv6 = BasicConv2d(512, 1024, 3, 2, 1,
-                                 batch_norm=True, activation='leakyrelu')
+        self.conv6 = ConvBNLeakyReLU(512, 1024, 3, 2, 1)
         self.rb5_1 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)
         self.rb5_2 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)
         self.rb5_3 = ResidualBlock(in_channels=1024, ch1x1=512, out_channels=1024)

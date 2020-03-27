@@ -14,19 +14,16 @@
 import torch
 import torch.nn as nn
 
-from .conv import BasicConv2d
+from .conv import ConvBNLeakyReLU
 
 
 class ResidualBlock(torch.nn.Module):
-    def __init__(self, in_channels, ch1x1, out_channels,
-                 activation="None"):
+    def __init__(self, in_channels, ch1x1, out_channels):
         super(ResidualBlock, self).__init__()
 
         self.main = nn.Sequential(
-            BasicConv2d(in_channels, ch1x1, 1, 1, 0,
-                        batch_norm=True, activation=activation),
-            BasicConv2d(ch1x1, out_channels, 3, 1, 1,
-                        batch_norm=True, activation=activation)
+            ConvBNLeakyReLU(in_channels, ch1x1, 1, 1, 0),
+            ConvBNLeakyReLU(ch1x1, out_channels, 3, 1, 1)
         )
 
     def forward(self, x):
