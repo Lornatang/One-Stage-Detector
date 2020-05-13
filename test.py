@@ -31,7 +31,7 @@ from utils.visualize import visualize_boxes
 
 
 def setup_cfg(args):
-    # load config from file and command-line arguments
+    # Load config from file and command-line arguments
     cfg = get_cfg()
     cfg.merge_from_file(args.config_file)
     # Set task for builtin models
